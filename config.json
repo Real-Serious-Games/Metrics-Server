@@ -1,0 +1,6 @@
+{
+    "db": "metrics",
+    "mainCollection": "metrics",
+    "errorsCollection": "errors",
+    "port": 3000
+}
