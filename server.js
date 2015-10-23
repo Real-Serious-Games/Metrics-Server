@@ -26,40 +26,37 @@ var startServer = function (config, outputPlugin) {
 	});
 
 	//
-	// Preprocess log to our expected structure.
+	// Preprocess metric to our expected structure.
 	//
-	var transformLog = function (log) {
-		return {
-			Timestamp: moment(log.Timestamp).toDate(),
-			Level: log.Level,
-			MessageTemplate: log.MessageTemplate,
-			RenderedMessage: log.RenderedMessage,
-			Properties: E.from(Object.keys(log.Properties))
-				.toObject(
-					function (propertyName) {
-						return propertyName;
-					},
-					function (propertyName) {
-						return log.Properties[propertyName].Value;
-					}
-				),
-		};	
+	var transformLog = function (metric, properties) {
+        // Update the date and add the properties to the metric.
+        var transformedMetric = metric;
+        transformedMetric.TimeStamp = moment(metric.TimeStamp).toDate();
+        transformedMetric.TimeReceived = moment().toDate();
+        transformedMetric.Properties = properties;
+        return transformedMetric;
 	}
 
-	app.post('/log', function (req, res) {
+	app.post('/emit', function (req, res) {
 		if (!req.body) {
 			throw new Error("Expected 'body'");
 		}
 
-		if (!req.body.Logs) {
-			throw new Error("Expected 'Logs' property on body");
+		if (!req.body.Metrics) {
+			throw new Error("Expected 'Metrics' property on body");
 		}
 
-		var logs = E.from(req.body.Logs)
-			.select(transformLog)
+        if (!req.body.Properties) {
+            throw new Error("Expected 'Properties' property on body");
+        }
+
+		var metrics = E.from(req.body.Metrics)
+			.select(function (metric) {
+                return transformLog(metric, req.body.Properties);
+            })
 			.toArray();
 
-		outputPlugin.emit(logs);
+		outputPlugin.emit(metrics);
 
 		res.status(200).end();
 	});
@@ -67,7 +64,7 @@ var startServer = function (config, outputPlugin) {
 	var server = app.listen(argv.port || conf.get("port"), "0.0.0.0", function () {
 		var host = server.address().address;
 		var port = server.address().port;
-		console.log("Receiving logs at " + host + ":" + port + "/log");
+		console.log("Receiving metrics at " + host + ":" + port + "/emit");
 	});
 };
 

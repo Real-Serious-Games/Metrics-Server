@@ -11,25 +11,19 @@ module.exports = function (config) {
 	conf.pushJsonFile('config.json');
 
 	var db = pmongo(conf.get('db'));
-	var logsCollection = db.collection(conf.get('logsCollection'));
-	var errorsCollection = db.collection(conf.get('errorsCollection'));
-
+	var metricsCollection = db.collection(conf.get('mainCollection'));
 
 	return {
 
 		//
 		// Emit an array of logs to the database.
 		//
-		emit: function (logs) {
-			logs.forEach(function (log) {
+		emit: function (metrics) {
+			metrics.forEach(function (metric) {
 
-				if (log.Level === 'Fatal' || log.Level === 'Error') {
-					errorsCollection.save(logEntry);
-				}
-
-				logsCollection.save(log);
+				metricsCollection.save(metric);
 			
-				console.log(log.Properties.UserName + " | " + log.RenderedMessage);
+				// console.log(log.Properties.UserName + " | " + log.RenderedMessage);
 			});			
 		},
 
