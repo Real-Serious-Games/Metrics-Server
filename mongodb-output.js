@@ -22,8 +22,6 @@ module.exports = function (config) {
 			metrics.forEach(function (metric) {
 
 				metricsCollection.save(metric);
-			
-				// console.log(log.Properties.UserName + " | " + log.RenderedMessage);
 			});			
 		},
 
