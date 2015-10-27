@@ -28,7 +28,7 @@ var startServer = function (config, outputPlugin) {
 	//
 	// Preprocess metric to our expected structure.
 	//
-	var transformLog = function (metric, properties) {
+	var transformMetric = function (metric, properties) {
         // Update the date and add the properties to the metric.
         var transformedMetric = metric;
         transformedMetric.TimeStamp = moment(metric.TimeStamp).toDate();
@@ -52,7 +52,7 @@ var startServer = function (config, outputPlugin) {
 
 		var metrics = E.from(req.body.Metrics)
 			.select(function (metric) {
-                return transformLog(metric, req.body.Properties);
+                return transformMetric(metric, req.body.Properties);
             })
 			.toArray();
 
