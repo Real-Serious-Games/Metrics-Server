@@ -28,11 +28,11 @@ var startServer = function (config, outputPlugin) {
 	//
 	// Preprocess metric to our expected structure.
 	//
-	var transformMetric = function (metric, properties) {
+	var transformMetric = function (metric, properties, timeReceived) {
         // Update the date and add the properties to the metric.
         var transformedMetric = metric;
         transformedMetric.TimeStamp = moment(metric.TimeStamp).toDate();
-        transformedMetric.TimeReceived = moment().toDate();
+        transformedMetric.TimeReceived = timeReceived;
         transformedMetric.Properties = properties;
         return transformedMetric;
 	}
@@ -50,9 +50,10 @@ var startServer = function (config, outputPlugin) {
             throw new Error("Expected 'Properties' property on body");
         }
 
+		var timeReceived = moment().toDate();
 		var metrics = E.from(req.body.Metrics)
 			.select(function (metric) {
-                return transformMetric(metric, req.body.Properties);
+                return transformMetric(metric, req.body.Properties, timeReceived);
             })
 			.toArray();
 
