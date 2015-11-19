@@ -18,6 +18,21 @@ var startServer = function (config, outputPlugin) {
 	}
 	conf.pushArgv();
 
+	if (!config.get('db')) {
+		throw new Error("'db' not specified in config.json or as command line option.");
+		errorOccurred = true;
+	}
+
+	if (!config.get('metricsCollection')) {
+		throw new Error("'metricsCollection' not specified in config.json or as command line option.");
+		errorOccurred = true;
+	}
+
+	if (!config.get('port')) {
+		throw new Error("'port' not specified in config.json or as command line option.");
+		errorOccurred = true;
+	}
+
 	var express = require('express');
 	var app = express();
 
