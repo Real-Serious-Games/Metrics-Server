@@ -1,7 +1,7 @@
 {
-  "name": "MetricsServer",
+  "name": "rsg-metrics-server",
   "version": "0.0.1",
-  "description": "A simple server that listens for metric messages from the Metrics system.",
+  "description": "A tiny server that for recieving metrics by HTTP post.",
   "main": "server.js",
   "dependencies": {
     "body-parser": "^1.12.0",
@@ -21,10 +21,17 @@
     "type": "git",
     "url": "https://github.com/Real-Serious-Games/Metrics-Server"
   },
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "metrics"
+  ],
+  "author": "ashley.davis@realseriousgames.com",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/Real-Serious-Games/Metrics-Server/issues"
   },
-  "homepage": "https://github.com/Real-Serious-Games/Metrics-Server"
+  "homepage": "https://github.com/Real-Serious-Games/Metrics-Server",
+  "bin": {
+    "task-mule": "./bin/rsg-metrics-server"
+  },
+  "preferGlobal": true
 }
