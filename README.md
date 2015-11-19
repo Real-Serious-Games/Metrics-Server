@@ -10,14 +10,20 @@ The metrics are stored to MongoDB.
 
 ## Run
 
-	rsg-metrics-server [--port <portno>]
+	rsg-metrics-server  [--port <portno>] [--db <database-connection-string>] [--metricsCollection <database-collection>]
 
 
 ## Configuration
 
 Edit the file config.json where you can set the database, collections and port for the server.
+	
+	{
+	    "db": "metrics",
+	    "metricsCollection": "metrics",
+	    "port": 3000
+	}
 
-The port can be optionally specified on the command line.
+The *port*, *db*, and *metricsCollection* can be overridden by the command line.
 
 
 ## Post metrics
