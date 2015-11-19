@@ -9,11 +9,11 @@ var startServer = function (config, outputPlugin) {
 		throw new Error("'outputPlugin' argument not specified.");
 	}
 
-	var argv = require('yargs').argv;
 	var E = require('linq');
 	var moment = require('moment');
 	var conf = require('confucious');
 	conf.pushJsonFile('config.json');
+	conf.pushArgv();
 
 	var express = require('express');
 	var app = express();
@@ -62,7 +62,7 @@ var startServer = function (config, outputPlugin) {
 		res.status(200).end();
 	});
 
-	var server = app.listen(argv.port || conf.get("port"), "0.0.0.0", function () {
+	var server = app.listen(conf.get("port"), "0.0.0.0", function () {
 		var host = server.address().address;
 		var port = server.address().port;
 		console.log("Receiving metrics at " + host + ":" + port + "/emit");
@@ -79,7 +79,8 @@ if (require.main === module) {
 	//
 	// Run from command line.
 	//
-	startServer({}, require('./mongodb-output')({}));
+	var conf = require('confucious');
+	startServer({}, require('./mongodb-output')(conf));
 }
 else {
 	// 

@@ -5,4 +5,5 @@
 process.title = 'rsg-metrics-server';
 
 var startServer = require('../server.js');
-startServer({}, require('../mongodb-output')({}));
+var conf = require('confucious');
+startServer({}, require('../mongodb-output')(conf));

@@ -1,12 +1,11 @@
 {
   "name": "rsg-metrics-server",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A tiny server that for recieving metrics by HTTP post.",
   "main": "server.js",
   "dependencies": {
     "body-parser": "^1.12.0",
     "express": "^4.12.2",
-    "yargs": "^3.11.0",
     "confucious": "0.0.9",
     "linq": "^3.0.4-beta",
     "moment": "^2.9.0",

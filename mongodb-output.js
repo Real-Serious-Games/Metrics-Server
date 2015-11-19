@@ -4,15 +4,12 @@
 // Output plugin that stores logs in MongoDB database.
 //
 
-module.exports = function (config) {
+module.exports = function (conf) {
 
-	var conf = require('confucious');
 	var pmongo = require('promised-mongo');
 	
-	conf.pushJsonFile('config.json');
-
 	var db = pmongo(conf.get('db'));
-	var metricsCollection = db.collection(conf.get('mainCollection'));
+	var metricsCollection = db.collection(conf.get('metricsCollection'));
 
 	return {
 
