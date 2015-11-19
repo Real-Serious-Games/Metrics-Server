@@ -11,8 +11,11 @@ var startServer = function (config, outputPlugin) {
 
 	var E = require('linq');
 	var moment = require('moment');
+	var fs = require('fs');
 	var conf = require('confucious');
-	conf.pushJsonFile('config.json');
+	if (fs.existsSync('config.json') {
+		conf.pushJsonFile('config.json');		
+	}
 	conf.pushArgv();
 
 	var express = require('express');
