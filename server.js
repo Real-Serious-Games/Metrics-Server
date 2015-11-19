@@ -13,7 +13,7 @@ var startServer = function (config, outputPlugin) {
 	var moment = require('moment');
 	var fs = require('fs');
 	var conf = require('confucious');
-	if (fs.existsSync('config.json') {
+	if (fs.existsSync('config.json')) {
 		conf.pushJsonFile('config.json');		
 	}
 	conf.pushArgv();
