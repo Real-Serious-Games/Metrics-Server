@@ -4,4 +4,5 @@
 
 process.title = 'rsg-metrics-server';
 
-require('../server.js');
+var startServer = require('../server.js');
+startServer({}, require('../mongodb-output')({}));
