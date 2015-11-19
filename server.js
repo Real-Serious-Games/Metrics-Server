@@ -3,7 +3,7 @@
 //
 // Start the log server.
 //
-var startServer = function (config, outputPlugin) {
+var startServer = function (conf, outputPlugin) {
 
 	if (!outputPlugin) {
 		throw new Error("'outputPlugin' argument not specified.");
@@ -11,27 +11,6 @@ var startServer = function (config, outputPlugin) {
 
 	var E = require('linq');
 	var moment = require('moment');
-	var fs = require('fs');
-	var conf = require('confucious');
-	if (fs.existsSync('config.json')) {
-		conf.pushJsonFile('config.json');		
-	}
-	conf.pushArgv();
-
-	if (!config.get('db')) {
-		throw new Error("'db' not specified in config.json or as command line option.");
-		errorOccurred = true;
-	}
-
-	if (!config.get('metricsCollection')) {
-		throw new Error("'metricsCollection' not specified in config.json or as command line option.");
-		errorOccurred = true;
-	}
-
-	if (!config.get('port')) {
-		throw new Error("'port' not specified in config.json or as command line option.");
-		errorOccurred = true;
-	}
 
 	var express = require('express');
 	var app = express();
@@ -98,7 +77,24 @@ if (require.main === module) {
 	// Run from command line.
 	//
 	var conf = require('confucious');
-	startServer({}, require('./mongodb-output')(conf));
+	var fs = require('fs');
+	if (fs.existsSync('config.json')) {
+		conf.pushJsonFile('config.json');		
+	}
+	conf.pushArgv();
+	if (!conf.get('db')) {
+		throw new Error("'db' not specified in config.json or as command line option.");
+	}
+
+	if (!conf.get('metricsCollection')) {
+		throw new Error("'metricsCollection' not specified in config.json or as command line option.");
+	}
+
+	if (!conf.get('port')) {
+		throw new Error("'port' not specified in config.json or as command line option.");
+	}
+
+	startServer(conf, require('./mongodb-output')(conf));
 }
 else {
 	// 
