@@ -6,8 +6,7 @@
 
 module.exports = function (conf) {
 
-	var pmongo = require('promised-mongo');
-	
+	var pmongo = require('promised-mongo');	
 	var db = pmongo(conf.get('db'));
 	var metricsCollection = db.collection(conf.get('metricsCollection'));
 

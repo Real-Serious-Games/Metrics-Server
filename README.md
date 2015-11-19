@@ -23,7 +23,7 @@ Edit the file config.json where you can set the database, collections and port f
 	    "port": 3000
 	}
 
-The *port*, *db*, and *metricsCollection* can be overridden by the command line.
+The *port*, *db* and *metricsCollection* can be overridden by the command line.
 
 
 ## Post metrics
