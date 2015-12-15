@@ -9,6 +9,11 @@ var startServer = function (conf, outputPlugin) {
 		throw new Error("'outputPlugin' argument not specified.");
 	}
 
+	var debugMode = conf.get('debug');
+	if (debugMode) {
+		console.log('Running in debug mode, displaying metrics as they are received.');
+	}
+
 	var E = require('linq');
 	var moment = require('moment');
 
@@ -53,6 +58,11 @@ var startServer = function (conf, outputPlugin) {
                 return transformMetric(metric, req.body.Properties, timeReceived);
             })
 			.toArray();
+
+		if (debugMode) {
+			console.log('Metrics received:');
+			console.log(metrics);
+		}
 
 		outputPlugin.emit(metrics);
 
